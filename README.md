@@ -4,33 +4,42 @@ Drop-in observability for non-deterministic and agentic workflows.
 
 Wrap an existing command, capture execution traces, and turn them into actionable insight.
 
+AI workflows are inherently non-deterministic.
+
+When something breaks, logs rarely explain:
+- why the system chose a different path
+- why behavior changed between runs
+- how to reproduce the failure
+
+HiveOS Trace captures execution and gives you replayable visibility into what actually happened.
+
 ## Install
 
-```powershell
+```
 pipx install hiveos-trace
 ```
 
 Fallback:
 
-```powershell
+```
 python -m pip install hiveos-trace
 ```
 
 ## Quickstart Command
 
-```powershell
+```
 hive quickstart
 ```
 
 No-browser variant:
 
-```powershell
+```
 hive quickstart --no-open
 ```
 
 ## 60-Second Quickstart
 
-```powershell
+```
 hive trace run --no-open -- python -c "print('hello trace')"
 hive trace ls --limit 5
 hive trace insight explain <run_id>
@@ -73,7 +82,7 @@ hive trace insight explain <run_id>
 
 ## Demo Script (Copy/Paste)
 
-```powershell
+```
 hive trace run --no-open -- python -c "print('demo-success')"
 hive trace run --no-open -- python -c "import sys; sys.stderr.write('demo-fail\n'); raise SystemExit(2)"
 hive trace ls --limit 5
