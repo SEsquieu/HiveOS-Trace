@@ -42,13 +42,13 @@ Optional metadata:
 
 Validate before ingest:
 
-```powershell
+```
 hive trace tei validate --file your_events.json --json
 ```
 
 Ingest into trace store:
 
-```powershell
+```
 hive trace tei ingest --file your_events.json --json
 ```
 

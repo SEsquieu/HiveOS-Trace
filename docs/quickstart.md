@@ -38,13 +38,13 @@ hive trace insight health --window 24h
 
 ## 7) Optional: OpenAI-compatible proxy capture
 
-```powershell
+```
 hive trace run --proxy --no-open -- python app.py
 ```
 
 ## 8) Optional: Structured TEI payload path (builder mode)
 
-```powershell
+```
 hive trace tei validate --file docs/examples/tei_batch.json --json
 hive trace tei ingest --file docs/examples/tei_batch.json --json
 ```

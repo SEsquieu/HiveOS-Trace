@@ -9,7 +9,7 @@ HiveOS Trace supports two adoption lanes:
 
 Works with any executable command, including agent runtimes and custom launchers.
 
-```powershell
+```
 hive trace run --no-open -- <your-command...>
 hive trace ls --limit 5
 hive trace show <run_id> --limit 120
@@ -20,7 +20,7 @@ hive trace diagnose <run_id>
 
 Use when your runtime talks to an OpenAI-compatible endpoint.
 
-```powershell
+```
 hive trace run --proxy --no-open -- <your-command...>
 ```
 
@@ -31,7 +31,7 @@ For framework developers who want richer step/tool/checkpoint observability.
 Contract reference:
 - `docs/tei-contract.md`
 
-```powershell
+```
 hive trace tei validate --file docs/examples/tei_batch.json --json
 hive trace tei ingest --file docs/examples/tei_batch.json --json
 ```
