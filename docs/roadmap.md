@@ -5,16 +5,19 @@
 - Stable primitive trace commands
 - Insight macros: explain, drift, health
 - Ops namespace for lifecycle/admin workflows
+- TEI utilities: validate + ingest
+- Framework integration docs for OpenClaw and OpenAI-compatible runtimes
+- Canonical trace runtime decoupled from platform core (compat shim preserved)
 
 ## Next
 
 - Macro confidence and evidence quality tuning
 - Better copy-ready remediation commands
-- More runtime adapters for structured lineage events
+- More runtime adapters and emitter shims for structured lineage events
+- Stronger operator UX for flow-heavy agent traces
 
 ## Longer Term
 
 - Agent self-diagnosis and bounded repair loops
 - Policy-constrained automated replay and remediation
 - Richer run scoring and before/after evaluation workflows
-

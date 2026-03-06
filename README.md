@@ -4,6 +4,8 @@ Drop-in observability for non-deterministic and agentic workflows.
 
 Wrap an existing command, capture execution traces, and turn them into actionable insight.
 
+Current public release line: `v0.2.0`.
+
 ## Install
 
 ```powershell
@@ -36,18 +38,34 @@ hive trace ls --limit 5
 hive trace insight explain <run_id>
 ```
 
+## Framework Builder Quickstart (TEI)
+
+```powershell
+# validate event payloads before ingest
+hive trace tei validate --file docs/examples/tei_batch.json --json
+
+# ingest structured step/tool lineage events
+hive trace tei ingest --file docs/examples/tei_batch.json --json
+```
+
+Notes:
+- `hive trace tei ingest` requires `HIVE_TRACE_TEI_INGEST_ENABLED=true`.
+- This is optional. Wrapper mode works without emitter integration.
+
 ## Command Model
 
 - Primitives: `hive trace ...`
 - Insight macros: `hive trace insight ...`
 - Ops lifecycle: `hive trace ops ...`
+- TEI utilities: `hive trace tei ...`
 
 ## What You Get (By Integration Level)
 
 | Integration level | What works |
 |---|---|
 | Zero instrumentation (wrapper only) | `trace run`, `trace ls`, `trace show`, `trace summary`, `trace diff`, `trace diagnose`, `trace insight explain/drift/health` |
-| Instrumented workflow (step/checkpoint emitters) | Anchor discovery (`trace anchors`), anchored replay (`--from-step-id`, `--from-checkpoint-id`), richer flow lineage (`trace flow ...`) |
+| OpenAI-compatible provider path | `trace run --proxy ...` request/response envelope capture plus normal run primitives |
+| Instrumented workflow (step/checkpoint emitters) | TEI validation/ingest (`trace tei validate/ingest`), anchor discovery (`trace anchors`), anchored replay (`--from-step-id`, `--from-checkpoint-id`), richer flow lineage (`trace flow ...`) |
 
 ## Why HiveOS Trace
 
@@ -67,8 +85,10 @@ hive trace insight explain <run_id>
 ## Docs
 
 - [Quickstart](docs/quickstart.md)
+- [TEI Contract](docs/tei-contract.md)
 - [Primitives vs Macros](docs/primitives-vs-macros.md)
 - [Why Hive Trace](docs/why-hive-trace.md)
+- [Integrations](docs/integrations.md)
 - [Roadmap](docs/roadmap.md)
 
 ## Demo Script (Copy/Paste)

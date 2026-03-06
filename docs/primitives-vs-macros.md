@@ -14,6 +14,8 @@ Low-level commands for direct inspection and control:
 - `hive trace diagnose`
 - `hive trace replay`
 - `hive trace flow ...`
+- `hive trace tei validate`
+- `hive trace tei ingest`
 
 Use primitives when you want exact raw behavior.
 
@@ -38,3 +40,8 @@ Lifecycle/admin controls:
 - `hive trace ops export`
 - `hive trace ops import`
 
+## Practical Guidance
+
+1. Start with primitives for exact observability.
+2. Use insight macros for faster decision support.
+3. Use TEI utilities when integrating framework emitters.
