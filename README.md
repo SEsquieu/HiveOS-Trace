@@ -4,9 +4,8 @@ Drop-in observability for non-deterministic and agentic workflows.
 
 Wrap an existing command, capture execution traces, and turn them into actionable insight.
 
-<<<<<<< HEAD
 Current public release line: `v0.2.0`.
-=======
+
 AI workflows are inherently non-deterministic.
 
 When something breaks, logs rarely explain:
@@ -15,7 +14,6 @@ When something breaks, logs rarely explain:
 - how to reproduce the failure
 
 HiveOS Trace captures execution and gives you replayable visibility into what actually happened.
->>>>>>> 0dce12f52ae1d8e12becb42ad7af266444729757
 
 ## Install
 
