@@ -5,7 +5,9 @@ HiveOS Trace supports two adoption lanes:
 1. Wrapper lane (immediate, no framework changes)
 2. Emitter lane (structured lineage via TEI)
 
-## Wrapper Lane
+---
+
+# Wrapper Lane
 
 Works with any executable command, including agent runtimes and custom launchers.
 
@@ -16,34 +18,79 @@ hive trace show <run_id> --limit 120
 hive trace diagnose <run_id>
 ```
 
-## OpenAI-Compatible Proxy Lane
+Wrapper mode provides:
 
-Use when your runtime talks to an OpenAI-compatible endpoint.
+- run capture
+- trace inspection
+- drift comparison
+- insight macros
+- anchor discovery
+- replay planning
+
+No code changes required.
+
+---
+
+# OpenAI-Compatible Proxy Lane
+
+Use when your runtime communicates with an OpenAI-compatible endpoint.
 
 ```
 hive trace run --proxy --no-open -- <your-command...>
 ```
 
-## TEI Emitter Lane
+This captures request and response envelopes alongside the execution trace.
 
-For framework developers who want richer step/tool/checkpoint observability.
+This is useful when debugging:
+
+- model routing issues
+- response drift
+- prompt/response anomalies
+- tool-calling behavior
+
+---
+
+# TEI Emitter Lane
+
+For framework developers who want deeper execution visibility.
+
+This integration emits structured lineage events that HiveOS Trace can ingest.
 
 Contract reference:
-- `docs/tei-contract.md`
+
+```
+docs/tei-contract.md
+```
+
+Example validation:
 
 ```
 hive trace tei validate --file docs/examples/tei_batch.json --json
+```
+
+Example ingestion:
+
+```
 hive trace tei ingest --file docs/examples/tei_batch.json --json
 ```
 
-Notes:
-- `hive trace tei ingest` requires `HIVE_TRACE_TEI_INGEST_ENABLED=true`.
-- Keep strict TEI version mode enabled by default.
+TEI events enable:
 
-## OpenClaw Path
+- step lineage tracking
+- checkpoint anchors
+- replay boundary detection
+- richer flow-level debugging
 
-For OpenClaw users:
+---
 
-1. Start with wrapper mode on your real OpenClaw command.
-2. Add proxy mode if provider path is OpenAI-compatible.
-3. Add TEI emitter shim only when you need deeper step-level lineage.
+# Choosing an Integration Path
+
+Most users should start with **wrapper mode**.
+
+It provides immediate value with zero setup.
+
+Framework builders and platform developers can add **TEI emitters** later to unlock:
+
+- richer anchor discovery
+- deeper replay planning
+- more deterministic debugging boundaries
