@@ -40,6 +40,21 @@ hive trace ls --limit 5
 hive trace insight explain <run_id>
 ```
 
+## Debugger Model
+
+HiveOS Trace treats an agent run like a program execution.
+
+During a run it captures events and derives **execution anchors** —
+safe boundaries where execution could theoretically resume.
+
+Each anchor is evaluated across three dimensions:
+
+- **Boundary strength** — how cleanly execution closed at that point
+- **Replay safety** — whether side effects make replay dangerous
+- **Replay utility** — whether enough state exists to meaningfully continue
+
+This allows HiveOS Trace to recommend replay points automatically.
+
 ## Framework Builder Quickstart (TEI)
 
 ```powershell
