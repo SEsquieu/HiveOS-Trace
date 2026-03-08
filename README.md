@@ -1,19 +1,12 @@
 # HiveOS Trace
 
-Drop-in observability for non-deterministic and agentic workflows.
+A replayable execution debugger for non-deterministic and agentic workflows.
 
-Wrap an existing command, capture execution traces, and turn them into actionable insight.
+HiveOS Trace wraps an existing command, captures execution traces, and
+turns them into replayable execution insight.
 
-Current public release line: `v0.2.0`.
-
-AI workflows are inherently non-deterministic.
-
-When something breaks, logs rarely explain:
-- why the system chose a different path
-- why behavior changed between runs
-- how to reproduce the failure
-
-HiveOS Trace captures execution and gives you replayable visibility into what actually happened.
+It can identify safe execution boundaries (“anchors”), rank replay points,
+and help you restart workflows from the middle of a run.
 
 ## Install
 
