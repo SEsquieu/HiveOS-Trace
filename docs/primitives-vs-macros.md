@@ -13,11 +13,13 @@ Low-level commands for direct inspection and control:
 - `hive trace diff`
 - `hive trace diagnose`
 - `hive trace replay`
+- `hive trace anchors`
+- `hive trace replay-plan`
 - `hive trace flow ...`
 - `hive trace tei validate`
 - `hive trace tei ingest`
 
-Use primitives when you want exact raw behavior.
+Use primitives when you want exact raw behavior and debugging control.
 
 ## Insight Macros
 
@@ -27,7 +29,13 @@ Composed, answer-first commands:
 - `hive trace insight drift`
 - `hive trace insight health`
 
-Macros include provenance (`derived_from`) and actionable next steps.
+Macros combine primitives and reasoning.
+
+They include:
+
+- provenance (`derived_from`)
+- supporting evidence
+- recommended next steps
 
 ## Ops
 
@@ -37,11 +45,5 @@ Lifecycle/admin controls:
 - `hive trace ops unarchive`
 - `hive trace ops prune`
 - `hive trace ops reconcile`
-- `hive trace ops export`
-- `hive trace ops import`
 
-## Practical Guidance
-
-1. Start with primitives for exact observability.
-2. Use insight macros for faster decision support.
-3. Use TEI utilities when integrating framework emitters.
+Ops commands manage run lifecycle and trace storage.
