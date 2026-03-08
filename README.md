@@ -1,14 +1,26 @@
 # HiveOS Trace
 
-A replayable execution debugger for non-deterministic and agentic workflows.
+Replayable execution debugging for non-deterministic and agentic workflows.
 
-HiveOS Trace wraps an existing command, captures execution traces, and
-turns them into replayable execution insight.
+Wrap an existing command, capture execution traces, and turn them into actionable insight.
 
-It can identify safe execution boundaries (“anchors”), rank replay points,
-and help you restart workflows from the middle of a run.
+Current public release line: `v0.3.x`.
 
-## Install
+AI workflows are inherently non-deterministic.
+
+When something breaks, logs rarely explain:
+
+- why the system chose a different path
+- why behavior changed between runs
+- how to reproduce the failure
+
+HiveOS Trace captures execution and turns it into a **replayable execution model**.
+
+Instead of just logs, it derives **execution anchors** — boundaries where a workflow safely closed — allowing developers to inspect runs, compare behavior, and replay execution from meaningful points.
+
+---
+
+# Install
 
 ```
 pipx install hiveos-trace
@@ -20,7 +32,9 @@ Fallback:
 python -m pip install hiveos-trace
 ```
 
-## Quickstart Command
+---
+
+# Quickstart Command
 
 ```
 hive quickstart
@@ -32,7 +46,9 @@ No-browser variant:
 hive quickstart --no-open
 ```
 
-## 60-Second Quickstart
+---
+
+# 60-Second Quickstart
 
 ```
 hive trace run --no-open -- python -c "print('hello trace')"
@@ -40,22 +56,21 @@ hive trace ls --limit 5
 hive trace insight explain <run_id>
 ```
 
-## Debugger Model
+Inspect replay anchors:
 
-HiveOS Trace treats an agent run like a program execution.
+```
+hive trace anchors <run_id>
+```
 
-During a run it captures events and derives **execution anchors** —
-safe boundaries where execution could theoretically resume.
+Generate a replay plan:
 
-Each anchor is evaluated across three dimensions:
+```
+hive trace replay-plan <run_id> --recommended --explain
+```
 
-- **Boundary strength** — how cleanly execution closed at that point
-- **Replay safety** — whether side effects make replay dangerous
-- **Replay utility** — whether enough state exists to meaningfully continue
+---
 
-This allows HiveOS Trace to recommend replay points automatically.
-
-## Framework Builder Quickstart (TEI)
+# Framework Builder Quickstart (TEI)
 
 ```powershell
 # validate event payloads before ingest
@@ -66,40 +81,51 @@ hive trace tei ingest --file docs/examples/tei_batch.json --json
 ```
 
 Notes:
+
 - `hive trace tei ingest` requires `HIVE_TRACE_TEI_INGEST_ENABLED=true`.
 - This is optional. Wrapper mode works without emitter integration.
 
-## Command Model
+---
+
+# Command Model
 
 - Primitives: `hive trace ...`
 - Insight macros: `hive trace insight ...`
 - Ops lifecycle: `hive trace ops ...`
 - TEI utilities: `hive trace tei ...`
 
-## What You Get (By Integration Level)
+---
+
+# What You Get (By Integration Level)
 
 | Integration level | What works |
 |---|---|
 | Zero instrumentation (wrapper only) | `trace run`, `trace ls`, `trace show`, `trace summary`, `trace diff`, `trace diagnose`, `trace insight explain/drift/health` |
 | OpenAI-compatible provider path | `trace run --proxy ...` request/response envelope capture plus normal run primitives |
-| Instrumented workflow (step/checkpoint emitters) | TEI validation/ingest (`trace tei validate/ingest`), anchor discovery (`trace anchors`), anchored replay (`--from-step-id`, `--from-checkpoint-id`), richer flow lineage (`trace flow ...`) |
+| Instrumented workflow (step/checkpoint emitters) | TEI validation/ingest (`trace tei validate/ingest`), anchor discovery (`trace anchors`), anchored replay (`--from-step-id`, `--from-checkpoint-id`), replay planning (`trace replay-plan`), richer flow lineage (`trace flow ...`) |
 
-## Why HiveOS Trace
+---
+
+# Why HiveOS Trace
 
 - Local-first: no required cloud account
 - Works immediately as a wrapper
 - Deeper value when instrumented (lineage + anchors)
-- Replay and diff for debugging non-deterministic behavior
+- Replay, comparison, and diff for debugging non-deterministic behavior
 - Macro insights (`explain`, `drift`, `health`) with provenance
 
-## Screenshots
+---
 
-![Quickstart](screenshots/quickstart.png)
-![Trace run and list](screenshots/trace-run-and-ls.png)
-![Insight explain](screenshots/insight-explain.png)
+# Screenshots
+
+![Quickstart](screenshots/quickstart.png)  
+![Trace run and list](screenshots/trace-run-and-ls.png)  
+![Insight explain](screenshots/insight-explain.png)  
 ![Insight health](screenshots/insight-health.png)
 
-## Docs
+---
+
+# Docs
 
 - [Quickstart](docs/quickstart.md)
 - [TEI Contract](docs/tei-contract.md)
@@ -108,11 +134,15 @@ Notes:
 - [Integrations](docs/integrations.md)
 - [Roadmap](docs/roadmap.md)
 
-## Demo Script (Copy/Paste)
+---
+
+# Demo Script (Copy/Paste)
 
 ```
 hive trace run --no-open -- python -c "print('demo-success')"
+
 hive trace run --no-open -- python -c "import sys; sys.stderr.write('demo-fail\n'); raise SystemExit(2)"
+
 hive trace ls --limit 5
 
 # pick run IDs from ls output
@@ -121,12 +151,16 @@ hive trace insight health --window 24h
 hive trace insight drift <run_id_a> <run_id_b>
 ```
 
-## Known Limits (Current Alpha)
+---
+
+# Known Limits (Current Alpha)
 
 - Anchors require emitted `step_id` / `checkpoint_id` events.
 - `insight health` is heuristic, not a policy-enforced SRE gate.
 - Autonomous self-repair loops are a roadmap direction, not current default behavior.
 
-## Links
+---
 
-- PyPI: `https://pypi.org/project/hiveos-trace/`
+# Links
+
+PyPI: https://pypi.org/project/hiveos-trace/
