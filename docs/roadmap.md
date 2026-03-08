@@ -12,7 +12,7 @@
 ## Next
 
 - Macro confidence and evidence quality tuning
-- Better copy-ready remediation commands
+- Better replay recommendations and debugger UX
 - More runtime adapters and emitter shims for structured lineage events
 - Stronger operator UX for flow-heavy agent traces
 
