@@ -2,7 +2,11 @@
 
 This is the current contract for framework shims that emit events to HiveOS Trace.
 
-Current contract version: `tei_version = "0.1"` (HiveOS Trace `v0.2.0` line).
+Current contract version:
+
+`tei_version = "0.1"`
+
+Compatible with HiveOS Trace `v0.3.x`.
 
 ## Required Fields
 
@@ -33,68 +37,26 @@ Include these when available:
 7. `step_type`
 8. `outcome` (`success|failed|denied|running|unknown`)
 
-Optional metadata:
+## Optional Metadata
+
+Optional metadata fields:
 
 1. `metadata` (object)
 2. `tags` (array of non-empty strings)
 
-## Validation and Ingest
+## Event Design Guidance
 
-Validate before ingest:
+Emit events at stable execution boundaries such as:
 
-```
-hive trace tei validate --file your_events.json --json
-```
+- step start
+- tool request
+- tool result
+- checkpoint creation
+- response commit
+- error/failure
 
-Ingest into trace store:
+Stable boundaries improve:
 
-```
-hive trace tei ingest --file your_events.json --json
-```
-
-Notes:
-- Ingest requires `HIVE_TRACE_TEI_INGEST_ENABLED=true`.
-- Strict version checking is on by default.
-- Use `--no-strict-version` only for compatibility testing/migration.
-
-## Compatibility Guarantees (Current)
-
-For the `0.2.x` line:
-
-1. Required field names above are treated as contract-stable.
-2. Optional fields are additive; missing optional fields are acceptable.
-3. Unknown extra fields should be considered non-breaking (ignored unless adopted later).
-4. CLI validation/ingest commands are the recommended shim entrypoint for conformance.
-
-Potential pre-`1.0` changes:
-
-1. Additional optional fields may be introduced.
-2. Event-type conventions may expand.
-3. Default strictness policy may be refined, but explicit flags will remain.
-
-## Minimal Event Example
-
-```json
-{
-  "tei_version": "0.1",
-  "event_id": "evt-001",
-  "event_type": "agent.tool_call",
-  "occurred_at_ms": 1772800000000,
-  "run_id": "observe-run:demo-001",
-  "source": {
-    "framework": "your-framework",
-    "emitter": "hive-shim.v1"
-  },
-  "flow_id": "flow:demo",
-  "step_id": "step:search",
-  "parent_step_id": "step:plan",
-  "tool_call_id": "tool:web.search:1",
-  "attempt": 1,
-  "step_type": "tool_call",
-  "outcome": "success",
-  "payload": {
-    "query": "example",
-    "result_count": 3
-  }
-}
-```
+- anchor discovery
+- replay planning
+- trace explainability
