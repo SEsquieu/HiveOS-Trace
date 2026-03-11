@@ -8,11 +8,14 @@
 - TEI utilities: validate + ingest
 - Framework integration docs for OpenClaw and OpenAI-compatible runtimes
 - Canonical trace runtime decoupled from platform core (compat shim preserved)
+- Replay from ranked anchors is validated on shimmed live runs
+- Replay command recovery prefers structured argv metadata when shims provide it
 
 ## Next
 
-- Macro confidence and evidence quality tuning
-- Better replay recommendations and debugger UX
+- Replay-through-shim continuity for replayed runs
+- Checkpoint preference and deterministic replay utility hardening
+- Boundary-quality improvements from native shim/runtime emitters
 - More runtime adapters and emitter shims for structured lineage events
 - Stronger operator UX for flow-heavy agent traces
 

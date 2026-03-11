@@ -21,9 +21,11 @@ import uuid
 from pathlib import Path
 
 _THIS_FILE = Path(__file__).resolve()
-_REPO_ROOT = _THIS_FILE.parents[2]
-if str(_REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(_REPO_ROOT))
+_repo_candidates = [_THIS_FILE.parents[i] for i in range(min(4, len(_THIS_FILE.parents)))]
+for candidate in _repo_candidates:
+    if (candidate / "hiveos").exists() and str(candidate) not in sys.path:
+        sys.path.insert(0, str(candidate))
+        break
 
 from hiveos import config as hive_config
 from hiveos.observe import ingest_tei_events
@@ -140,7 +142,7 @@ def main(argv: list[str] | None = None) -> int:
         command = command[1:]
     if not command:
         print("error=no_command")
-        print("hint=Use: python docs/examples/openclaw_live_shim.py -- openclaw agent ...")
+        print("hint=Use: python openclaw_live_shim.py -- openclaw agent ...")
         return 2
 
     run_id = str(args.run_id or "").strip() or f"observe-run:openclaw-live-{uuid.uuid4().hex[:10]}"
@@ -149,6 +151,7 @@ def main(argv: list[str] | None = None) -> int:
     source_emitter = str(args.emitter or "hive-openclaw-shim.v1").strip() or "hive-openclaw-shim.v1"
     cwd = str(args.cwd or "").strip() or None
     command_text = " ".join([str(part) for part in command])
+    command_argv = [str(part) for part in command]
     step_cmd = "step:openclaw.command"
     tool_call_id = "tool:openclaw.command:1"
     started_ms = _now_ms()
@@ -168,6 +171,7 @@ def main(argv: list[str] | None = None) -> int:
             payload={
                 "step_name": "turn.start",
                 "command": command_text,
+                "command_argv": command_argv,
                 "cwd": str(cwd or ""),
                 "boundary_type": "step.generic",
                 "idempotency_hint": "unknown",
@@ -192,6 +196,7 @@ def main(argv: list[str] | None = None) -> int:
             payload={
                 "step_name": "tool.request",
                 "command": command_text,
+                "command_argv": command_argv,
                 "canonical_anchor_type": "tool.request",
                 "idempotency_hint": "high",
                 "side_effect": True,

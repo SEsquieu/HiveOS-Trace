@@ -4,7 +4,7 @@ Replayable execution debugging for non-deterministic and agentic workflows.
 
 Wrap an existing command, capture execution traces, and turn them into actionable insight.
 
-Current public release line: `v0.3.x`.
+Current public release line: `v0.3.2`.
 
 AI workflows are inherently non-deterministic.
 
@@ -68,6 +68,12 @@ Generate a replay plan:
 hive trace replay-plan <run_id> --recommended --explain
 ```
 
+Execute a replay from the selected anchor:
+
+```powershell
+hive trace replay <run_id> --from-step-id <step_id> --no-open
+```
+
 ---
 
 # Framework Builder Quickstart (TEI)
@@ -84,6 +90,7 @@ Notes:
 
 - `hive trace tei ingest` requires `HIVE_TRACE_TEI_INGEST_ENABLED=true`.
 - This is optional. Wrapper mode works without emitter integration.
+- For builder shims that wrap executable commands, emit structured argv metadata when available so replay preserves quoted multi-word arguments.
 
 ---
 
@@ -103,6 +110,10 @@ Notes:
 | Zero instrumentation (wrapper only) | `trace run`, `trace ls`, `trace show`, `trace summary`, `trace diff`, `trace diagnose`, `trace insight explain/drift/health` |
 | OpenAI-compatible provider path | `trace run --proxy ...` request/response envelope capture plus normal run primitives |
 | Instrumented workflow (step/checkpoint emitters) | TEI validation/ingest (`trace tei validate/ingest`), anchor discovery (`trace anchors`), anchored replay (`--from-step-id`, `--from-checkpoint-id`), replay planning (`trace replay-plan`), richer flow lineage (`trace flow ...`) |
+
+For shimmed live runs in `v0.3.2`:
+- replay from the original shimmed source run is reliable enough for live demos
+- replayed runs do not yet automatically re-enter shim instrumentation, so replay-of-replay anchor discovery is not yet guaranteed
 
 ---
 
@@ -156,6 +167,7 @@ hive trace insight drift <run_id_a> <run_id_b>
 # Known Limits (Current Alpha)
 
 - Anchors require emitted `step_id` / `checkpoint_id` events.
+- Replay reliability is strongest when shims emit structured launcher metadata such as `payload.command_argv`.
 - `insight health` is heuristic, not a policy-enforced SRE gate.
 - Autonomous self-repair loops are a roadmap direction, not current default behavior.
 

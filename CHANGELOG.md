@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.3.2
+
+- Improved replay reliability for shimmed live runs by preferring structured argv metadata during replay command recovery.
+- Updated the OpenClaw live shim guidance to preserve quoted multi-word arguments safely.
+- Clarified the current replay limitation:
+  - replayed runs execute correctly
+  - replayed runs do not yet automatically re-enter shim instrumentation for second-order anchors
+- Refreshed public docs around replay milestones, builder shim expectations, and roadmap ordering.
+
 ## v0.2.0
 
 - Promoted `hiveos_trace` as canonical runtime owner with compatibility shim for legacy imports.

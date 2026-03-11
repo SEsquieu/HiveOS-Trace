@@ -24,8 +24,8 @@ Wrapper mode provides:
 - trace inspection
 - drift comparison
 - insight macros
-- anchor discovery
-- replay planning
+- generic anchor discovery where boundary metadata exists
+- replay planning on captured runs
 
 No code changes required.
 
@@ -80,6 +80,7 @@ TEI events enable:
 - checkpoint anchors
 - replay boundary detection
 - richer flow-level debugging
+- stronger replay reliability when shims emit runtime-specific resume hints such as structured argv
 
 ---
 
@@ -94,3 +95,12 @@ Framework builders and platform developers can add **TEI emitters** later to unl
 - richer anchor discovery
 - deeper replay planning
 - more deterministic debugging boundaries
+
+Builder note for shim authors:
+- if your shim launches a subprocess, emit both a human-readable `command` string and a structured `payload.command_argv` list
+- on Windows, document the canonical shell-shim form explicitly when needed:
+  - `cmd /c openclaw ...`
+
+Current limitation:
+- replayed runs execute correctly, but they do not yet automatically re-enter shim instrumentation
+- treat the original shimmed run as the source of truth for anchor ranking and replay planning until replay-through-shim continuity lands

@@ -52,3 +52,19 @@ hive trace tei ingest --file docs/examples/tei_batch.json --json
 Notes:
 - `hive trace tei ingest` requires `HIVE_TRACE_TEI_INGEST_ENABLED=true`.
 - Use this lane when you want richer step/tool/checkpoint lineage from framework emitters.
+- For live command shims, include structured argv metadata (`payload.command_argv`) if the runtime launches a subprocess.
+
+## 9) OpenClaw live replay demo
+
+```powershell
+$env:HIVE_TRACE_TEI_INGEST_ENABLED="true"
+python openclaw_live_shim.py -- cmd /c openclaw agent --session-id main --message "demo replay anchor flow"
+hive trace anchors <run_id>
+hive trace replay-plan <run_id> --recommended --explain
+hive trace replay <run_id> --from-step-id step:openclaw.output --no-open
+```
+
+Current status in `v0.3.2`:
+- the original shimmed run is anchorable and replayable
+- replay preserves quoted multi-word arguments correctly
+- replayed runs do not yet automatically re-enter shim instrumentation
